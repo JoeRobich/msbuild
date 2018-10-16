@@ -41,6 +41,7 @@ namespace Microsoft.Build.Graph.UnitTests
 
         public IsolateProjectsTests(ITestOutputHelper testOutput)
         {
+            BuildManager.DefaultBuildManager.Dispose();
             _testOutput = testOutput;
         }
 
