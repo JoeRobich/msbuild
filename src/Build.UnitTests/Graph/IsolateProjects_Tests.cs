@@ -102,7 +102,8 @@ namespace Microsoft.Build.Graph.UnitTests
                 var buildParameters = new BuildParameters
                 {
                     IsolateProjects = true,
-                    Loggers = new ILogger[] {logger}
+                    Loggers = new ILogger[] {logger},
+                    ShutdownInProcNodeOnBuildFinish = true
                 };
 
                 var rootRequest = new BuildRequestData(
