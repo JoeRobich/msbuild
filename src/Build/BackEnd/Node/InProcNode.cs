@@ -324,7 +324,9 @@ namespace Microsoft.Build.BackEnd
                 NativeMethodsShared.SetCurrentDirectory(_savedCurrentDirectory);
 
                 // Restore the original environment.
-                foreach (KeyValuePair<string, string> entry in CommunicationsUtilities.GetEnvironmentVariables())
+                var currentEnvironment = CommunicationsUtilities.GetEnvironmentVariables();
+
+                foreach (KeyValuePair<string, string> entry in currentEnvironment)
                 {
                     if (!_savedEnvironment.ContainsKey(entry.Key))
                     {
@@ -334,6 +336,11 @@ namespace Microsoft.Build.BackEnd
 
                 foreach (KeyValuePair<string, string> entry in _savedEnvironment)
                 {
+                    if (currentEnvironment.TryGetValue(entry.Key, out var currentValue) && entry.Value.Equals(currentValue))
+                    {
+                        continue;
+                    }
+
                     Environment.SetEnvironmentVariable(entry.Key, entry.Value);
                 }
             }
